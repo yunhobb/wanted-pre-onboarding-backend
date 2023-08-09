@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql
+    container_name: db
+    ports:
+      - "3307:3306"
+    env_file:
+      - "./.env"
+    networks:
+      - app-tier
+    restart: on-failure
+
+  backend:
+    env_file:
+      .env
+    build:
+      context: ./
+    command: gradle bootRun
+    container_name: backend
+    ports:
+      - 8080:8080
+    networks:
+      - app-tier
+    depends_on:
+      - mysqldb
+    restart: on-failure
+    tty: true
+
+networks:
+  app-tier:
+    driver: bridge

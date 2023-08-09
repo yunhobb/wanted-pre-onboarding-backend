@@ -1,0 +1,21 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3307
+    url: jdbc:mysql://db:3306
+    username: root
+    password: 1234
