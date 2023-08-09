@@ -7,7 +7,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -15,7 +15,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3307
-    url: jdbc:mysql://db:3306
+#    url: jdbc:mysql://localhost:3307/wanted?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://db:3306/wanted?serverTimezone=Asia/Seoul
     username: root
     password: 1234

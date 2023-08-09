@@ -23,7 +23,7 @@ import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
-@Where(clause = "deleted _at is null")
+@Where(clause = "deleted_at is null")
 @EntityListeners(AuditListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post implements Auditable {
@@ -38,7 +38,7 @@ public class Post implements Auditable {
     @Column(nullable = false)
     private String title;
 
-    @JoinColumn(name = "member_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
