@@ -1,0 +1,11 @@
+package com.wanted.backend.global.audit;
+
+import java.time.LocalDateTime;
+
+public interface Auditable {
+    BaseTime getBaseTime();
+    void setBaseTime(BaseTime baseTime);
+    default void delete() {
+        getBaseTime().setDeletedAt(LocalDateTime.now());
+    }
+}
