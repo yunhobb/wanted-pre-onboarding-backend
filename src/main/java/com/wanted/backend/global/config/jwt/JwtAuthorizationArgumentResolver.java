@@ -18,7 +18,7 @@ public class JwtAuthorizationArgumentResolver implements HandlerMethodArgumentRe
     @Value("${app.auth.token.auth-header}")
     private String header;
 
-    private final JwtTokenProvider jwtAuthTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -34,8 +34,8 @@ public class JwtAuthorizationArgumentResolver implements HandlerMethodArgumentRe
         if (httpServletRequest != null) {
             String token = httpServletRequest.getHeader(header);
 
-            if (jwtAuthTokenProvider.validateToken(token)) {
-                return jwtAuthTokenProvider.parsingTokenToMember(token);
+            if (jwtTokenProvider.validateToken(token)) {
+                return jwtTokenProvider.parsingTokenToMember(token);
             }
         }
 

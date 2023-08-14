@@ -3,16 +3,10 @@ package com.wanted.backend.member.entity;
 import com.wanted.backend.global.audit.AuditListener;
 import com.wanted.backend.global.audit.Auditable;
 import com.wanted.backend.global.audit.BaseTime;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,10 +34,6 @@ public class Member implements Auditable {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Enumerated(EnumType.STRING)
-    private List<Role> roles = new ArrayList<>();
-
     @Setter
     @Embedded
     @Column(nullable = false)
@@ -54,4 +44,5 @@ public class Member implements Auditable {
         this.email = email;
         this.password = password;
     }
+
 }

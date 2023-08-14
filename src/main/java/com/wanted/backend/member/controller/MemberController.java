@@ -2,6 +2,7 @@ package com.wanted.backend.member.controller;
 
 import com.wanted.backend.global.dto.IdResponse;
 import com.wanted.backend.member.dto.request.MemberRequest;
+import com.wanted.backend.member.dto.response.MemberResponse;
 import com.wanted.backend.member.service.MemberService;
 import javax.validation.Valid;
 import lombok.AccessLevel;
@@ -21,10 +22,15 @@ public class MemberController {
 
     MemberService memberService;
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public ResponseEntity<IdResponse<Long>> signUp(
         @Valid @RequestBody MemberRequest request ) {
         return ResponseEntity.ok(memberService.signUp(request));
     }
 
+    @PostMapping("/sign-in")
+    public ResponseEntity<MemberResponse> signIn(
+        @Valid @RequestBody MemberRequest request ) {
+        return ResponseEntity.ok(memberService.signIn(request));
+    }
 }
