@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,9 +53,16 @@ public class PostController {
     @GetMapping("/page")
     public ResponseEntity<PostPageResponse> getPostByPagination(
         @RequestParam(defaultValue = "0") int offset,
-        @RequestParam(defaultValue = "10") int size){
+        @RequestParam(defaultValue = "10") int size) {
         PostPageResponse response = postService.getPostByPagination(offset, size);
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/draw/{id}")
+    public ResponseEntity<Void> deletePost(
+        @PathVariable Long id,
+        @JwtAuthorization MemberTokenInfo memberTokenInfo) {
+        postService.deletePost(id,memberTokenInfo);
+        return ResponseEntity.ok().build();
+    }
 }

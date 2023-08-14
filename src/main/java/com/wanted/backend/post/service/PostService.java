@@ -32,13 +32,13 @@ public class PostService implements EntityLoader<Post, Long>{
     PostMapper postMapper;
     MemberRepository memberRepository;
 
-    public IdResponse<Long> create(PostCreateRequest request) {
+    public IdResponse<Long> create(final PostCreateRequest request) {
         Member member = existMember(request.getMemberId());
         Post post =  postRepository.save(postMapper.toEntity(request, member));
         return new IdResponse<>(post.getId());
     }
 
-    public IdResponse<Long> update(PostUpdateRequest request, MemberTokenInfo info) {
+    public IdResponse<Long> update(final PostUpdateRequest request, final  MemberTokenInfo info) {
         checkJwtToken(request.getPostId(),info);
 
         Post foundPost = existPost(request.getPostId());
@@ -47,15 +47,21 @@ public class PostService implements EntityLoader<Post, Long>{
         return new IdResponse<>(postRepository.save(foundPost).getId());
     }
 
-    public PostResponse getOnePost(Long id) {
+    public PostResponse getOnePost(final Long id) {
         Post post = loadEntity(id);
         return postMapper.toResponse(post);
     }
 
-    public PostPageResponse getPostByPagination(int offset, int size) {
+    public PostPageResponse getPostByPagination(final int offset, final int size) {
         PageRequest request = PageRequest.of(offset, size);
         Page<Post> postByPagenation = postRepository.findPostWithPagination(request);
         return postMapper.toPageResponse(postByPagenation);
+    }
+
+    public void deletePost(final Long id, final MemberTokenInfo info) {
+        checkJwtToken(id, info);
+
+        loadEntity(id).delete();
     }
 
     private Member existMember(final Long id) {
@@ -81,5 +87,4 @@ public class PostService implements EntityLoader<Post, Long>{
         return postRepository.findById(id)
             .orElseThrow(EntityNotFoundException::new);
     }
-
 }
