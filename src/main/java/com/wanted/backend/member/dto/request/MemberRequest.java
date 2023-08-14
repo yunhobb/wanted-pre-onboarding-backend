@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberSignUpRequest {
+public class MemberRequest {
 
     @Email
     private String email;

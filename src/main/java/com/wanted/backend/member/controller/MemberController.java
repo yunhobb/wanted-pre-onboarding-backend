@@ -1,11 +1,13 @@
 package com.wanted.backend.member.controller;
 
-import com.wanted.backend.member.dto.request.MemberSignUpRequest;
+import com.wanted.backend.global.dto.IdResponse;
+import com.wanted.backend.member.dto.request.MemberRequest;
 import com.wanted.backend.member.service.MemberService;
 import javax.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +21,10 @@ public class MemberController {
 
     MemberService memberService;
 
-    @PostMapping("signup")
-    public void signUp(@Valid @RequestBody MemberSignUpRequest request) {
-        memberService.signUp(request);
+    @PostMapping("/signup")
+    public ResponseEntity<IdResponse<Long>> signUp(
+        @Valid @RequestBody MemberRequest request ) {
+        return ResponseEntity.ok(memberService.signUp(request));
     }
 
-    @PostMapping("signin")
-    public
 }

@@ -1,10 +1,11 @@
 package com.wanted.backend.member.service;
 
 import com.wanted.backend.global.EntityLoader;
+import com.wanted.backend.global.dto.IdResponse;
 import com.wanted.backend.global.exception.EntityNotFoundException;
-import com.wanted.backend.member.dto.request.MemberSignUpRequest;
+import com.wanted.backend.member.dto.request.MemberRequest;
 import com.wanted.backend.member.entity.Member;
-import com.wanted.backend.member.exception.EmailDuplicateException;
+import com.wanted.backend.member.exception.DuplicateEmailException;
 import com.wanted.backend.member.mapper.MemberMapper;
 import com.wanted.backend.member.repository.MemberRepository;
 import lombok.AccessLevel;
@@ -21,12 +22,15 @@ public class MemberService implements EntityLoader<Member, Long> {
     MemberMapper memberMapper;
 
     @Transactional
-    public void signUp(final MemberSignUpRequest request) {
+    public IdResponse<Long> signUp(final MemberRequest request) {
         if(memberRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new EmailDuplicateException();
+            throw new DuplicateEmailException();
         }
-        memberRepository.save(memberMapper.toEntity(request));
+        Member member = memberRepository.save(memberMapper.toEntity(request));
+        return new IdResponse<>(member.getId());
     }
+
+
 
     @Override
     public Member loadEntity(final Long id) {

@@ -19,3 +19,10 @@ spring:
     url: jdbc:mysql://db:3306/wanted?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+
+# 따로 분리를 해야하지만 예외적으로 남겨둠
+app:
+  auth:
+    token:
+      auth-header: Authorization
+      secret-key: ${JWT_SECRET_KEY}
