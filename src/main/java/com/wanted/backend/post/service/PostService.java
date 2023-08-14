@@ -13,7 +13,6 @@ import com.wanted.backend.post.dto.reponse.PostResponse;
 import com.wanted.backend.post.dto.request.PostCreateRequest;
 import com.wanted.backend.post.dto.request.PostUpdateRequest;
 import com.wanted.backend.post.entity.Post;
-import com.wanted.backend.post.exception.PostNotFoundException;
 import com.wanted.backend.post.mapper.PostMapper;
 import com.wanted.backend.post.repository.PostRepository;
 import lombok.AccessLevel;
@@ -41,7 +40,7 @@ public class PostService implements EntityLoader<Post, Long>{
     public IdResponse<Long> update(final PostUpdateRequest request, final  MemberTokenInfo info) {
         checkJwtToken(request.getPostId(),info);
 
-        Post foundPost = existPost(request.getPostId());
+        Post foundPost = loadEntity(request.getPostId());
 
         foundPost.updatePost(request.getContent(), request.getTitle());
         return new IdResponse<>(postRepository.save(foundPost).getId());
@@ -67,11 +66,6 @@ public class PostService implements EntityLoader<Post, Long>{
     private Member existMember(final Long id) {
         return memberRepository.findById(id)
             .orElseThrow(MemberNotFoundException::new);
-    }
-
-    private Post existPost(final Long id) {
-        return postRepository.findById(id)
-            .orElseThrow(PostNotFoundException::new);
     }
 
     private void checkJwtToken(Long postId, MemberTokenInfo memberTokenInfo) {
