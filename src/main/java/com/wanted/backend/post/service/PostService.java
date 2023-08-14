@@ -8,6 +8,7 @@ import com.wanted.backend.global.exception.EntityNotFoundException;
 import com.wanted.backend.member.entity.Member;
 import com.wanted.backend.member.exception.MemberNotFoundException;
 import com.wanted.backend.member.repository.MemberRepository;
+import com.wanted.backend.post.dto.reponse.PostPageResponse;
 import com.wanted.backend.post.dto.reponse.PostResponse;
 import com.wanted.backend.post.dto.request.PostCreateRequest;
 import com.wanted.backend.post.dto.request.PostUpdateRequest;
@@ -18,6 +19,8 @@ import com.wanted.backend.post.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,6 +50,12 @@ public class PostService implements EntityLoader<Post, Long>{
     public PostResponse getOnePost(Long id) {
         Post post = loadEntity(id);
         return postMapper.toResponse(post);
+    }
+
+    public PostPageResponse getPostByPagination(int offset, int size) {
+        PageRequest request = PageRequest.of(offset, size);
+        Page<Post> postByPagenation = postRepository.findPostWithPagination(request);
+        return postMapper.toPageResponse(postByPagenation);
     }
 
     private Member existMember(final Long id) {
