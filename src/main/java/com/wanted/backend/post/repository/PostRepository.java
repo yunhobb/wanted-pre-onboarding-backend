@@ -8,5 +8,5 @@ import org.springframework.data.domain.Pageable;
 public interface PostRepository {
     Post save(Post post);
     Optional<Post> findById(Long id);
-    Page<Post> findPostWithPagination(Pageable pageable);
+    Page<Post> findAll(Pageable pageable);
 }

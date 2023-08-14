@@ -53,7 +53,7 @@ public class PostService implements EntityLoader<Post, Long>{
 
     public PostPageResponse getPostByPagination(final int offset, final int size) {
         PageRequest request = PageRequest.of(offset, size);
-        Page<Post> postByPagenation = postRepository.findPostWithPagination(request);
+        Page<Post> postByPagenation = postRepository.findAll(request);
         return postMapper.toPageResponse(postByPagenation);
     }
 
