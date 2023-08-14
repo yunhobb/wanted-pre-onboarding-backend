@@ -1,7 +1,6 @@
 package com.wanted.backend.post.service;
 
 import com.wanted.backend.global.EntityLoader;
-import com.wanted.backend.global.config.jwt.JwtTokenProvider;
 import com.wanted.backend.global.config.jwt.MemberTokenInfo;
 import com.wanted.backend.global.dto.IdResponse;
 import com.wanted.backend.global.exception.CustomJwtTokenException;
@@ -9,6 +8,7 @@ import com.wanted.backend.global.exception.EntityNotFoundException;
 import com.wanted.backend.member.entity.Member;
 import com.wanted.backend.member.exception.MemberNotFoundException;
 import com.wanted.backend.member.repository.MemberRepository;
+import com.wanted.backend.post.dto.reponse.PostResponse;
 import com.wanted.backend.post.dto.request.PostCreateRequest;
 import com.wanted.backend.post.dto.request.PostUpdateRequest;
 import com.wanted.backend.post.entity.Post;
@@ -28,7 +28,6 @@ public class PostService implements EntityLoader<Post, Long>{
     PostRepository postRepository;
     PostMapper postMapper;
     MemberRepository memberRepository;
-    JwtTokenProvider jwtTokenProvider;
 
     public IdResponse<Long> create(PostCreateRequest request) {
         Member member = existMember(request.getMemberId());
@@ -40,9 +39,14 @@ public class PostService implements EntityLoader<Post, Long>{
         checkJwtToken(request.getPostId(),info);
 
         Post foundPost = existPost(request.getPostId());
-        
+
         foundPost.updatePost(request.getContent(), request.getTitle());
         return new IdResponse<>(postRepository.save(foundPost).getId());
+    }
+
+    public PostResponse getOnePost(Long id) {
+        Post post = loadEntity(id);
+        return postMapper.toResponse(post);
     }
 
     private Member existMember(final Long id) {
