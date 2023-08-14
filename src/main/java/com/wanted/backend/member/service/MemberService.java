@@ -29,28 +29,36 @@ public class MemberService implements EntityLoader<Member, Long> {
 
     @Transactional
     public IdResponse<Long> signUp(final MemberRequest request) {
-        if(memberRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new DuplicateEmailException();
-        }
+        checkDuplicatePassword(request.getEmail());
+
         Member member = memberRepository.save(memberMapper.toEntity(request));
         return new IdResponse<>(member.getId());
     }
 
     public MemberResponse signIn(final MemberRequest request) {
-        Member member = memberRepository.findByEmail(request.getEmail())
-            .orElseThrow(MemberNotFoundException::new);
+        Member member = getMemberByEmail(request.getEmail());
         checkPassword(member, request.getPassword());
+
         String jwtToken = jwtTokenProvider.createJwtAuthToken(member.getId(), member.getEmail());
-        MemberResponse response = memberMapper.toResponse(member, jwtToken);
-        return response;
+        return memberMapper.toResponse(member, jwtToken);
     }
 
+    private void checkDuplicatePassword(final String email) {
+        if(memberRepository.findByEmail(email).isPresent()){
+            throw new DuplicateEmailException();
+        }
+    }
+
+    private Member getMemberByEmail(final String email) {
+        return memberRepository.findByEmail(email)
+            .orElseThrow(MemberNotFoundException::new);
+    }
     private void checkPassword(Member member, String password) {
         if (!member.getPassword().equals(password)) {
             throw new PasswordNotMatchException();
         }
     }
-    
+
     @Override
     public Member loadEntity(final Long id) {
         return memberRepository.findById(id)
