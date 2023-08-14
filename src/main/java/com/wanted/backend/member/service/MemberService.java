@@ -39,7 +39,8 @@ public class MemberService implements EntityLoader<Member, Long> {
         Member member = getMemberByEmail(request.getEmail());
         checkPassword(member, request.getPassword());
 
-        String jwtToken = jwtTokenProvider.createJwtAuthToken(member.getId(), member.getEmail());
+        String jwtToken = createToken(member.getId(), member.getEmail());
+
         return memberMapper.toResponse(member, jwtToken);
     }
 
@@ -53,7 +54,11 @@ public class MemberService implements EntityLoader<Member, Long> {
         return memberRepository.findByEmail(email)
             .orElseThrow(MemberNotFoundException::new);
     }
-    private void checkPassword(Member member, String password) {
+
+    private String createToken(final Long id, final String email) {
+        return jwtTokenProvider.createJwtAuthToken(id, email);
+    }
+    private void checkPassword(final Member member, final String password) {
         if (!member.getPassword().equals(password)) {
             throw new PasswordNotMatchException();
         }
