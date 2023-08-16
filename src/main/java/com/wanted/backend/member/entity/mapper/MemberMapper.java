@@ -1,17 +1,16 @@
 package com.wanted.backend.member.entity.mapper;
 
-import com.wanted.backend.member.entity.dto.request.MemberRequest;
-import com.wanted.backend.member.entity.dto.response.MemberResponse;
 import com.wanted.backend.member.entity.Member;
+import com.wanted.backend.member.entity.dto.response.MemberResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberMapper {
 
-    public Member toEntity(final MemberRequest request) {
+    public Member toEntity(final String email, final String password) {
         return Member.builder()
-            .email(request.getEmail())
-            .password(request.getPassword())
+            .email(email)
+            .password(password)
             .build();
     }
 

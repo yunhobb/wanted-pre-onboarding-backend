@@ -4,6 +4,7 @@ import com.wanted.backend.global.EntityLoader;
 import com.wanted.backend.global.config.jwt.JwtTokenProvider;
 import com.wanted.backend.global.dto.IdResponse;
 import com.wanted.backend.global.exception.EntityNotFoundException;
+import com.wanted.backend.global.util.PasswordEncryptor;
 import com.wanted.backend.member.entity.dto.request.MemberRequest;
 import com.wanted.backend.member.entity.dto.response.MemberResponse;
 import com.wanted.backend.member.entity.Member;
@@ -18,20 +19,24 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class MemberService implements EntityLoader<Member, Long> {
     MemberRepository memberRepository;
     MemberMapper memberMapper;
-    private final JwtTokenProvider jwtTokenProvider;
+    JwtTokenProvider jwtTokenProvider;
+    PasswordEncryptor passwordEncryptor;
 
 
     @Transactional
     public IdResponse<Long> signUp(final MemberRequest request) {
         checkDuplicatePassword(request.getEmail());
 
-        Member member = memberRepository.save(memberMapper.toEntity(request));
+        Member member = memberRepository.save(memberMapper.toEntity(
+            request.getEmail(),passwordEncryptor.hashPassword(request.getPassword())));
+
         return new IdResponse<>(member.getId());
     }
 
@@ -59,7 +64,7 @@ public class MemberService implements EntityLoader<Member, Long> {
         return jwtTokenProvider.createJwtAuthToken(id, email);
     }
     private void checkPassword(final Member member, final String password) {
-        if (!member.getPassword().equals(password)) {
+        if (!passwordEncryptor.verifyPassword(member.getPassword(), passwordEncryptor.hashPassword(password))) {
             throw new PasswordNotMatchException();
         }
     }
