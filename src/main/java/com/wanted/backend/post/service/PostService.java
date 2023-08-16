@@ -8,12 +8,12 @@ import com.wanted.backend.global.exception.EntityNotFoundException;
 import com.wanted.backend.member.entity.Member;
 import com.wanted.backend.member.exception.MemberNotFoundException;
 import com.wanted.backend.member.repository.MemberRepository;
-import com.wanted.backend.post.dto.reponse.PostPageResponse;
-import com.wanted.backend.post.dto.reponse.PostResponse;
-import com.wanted.backend.post.dto.request.PostCreateRequest;
-import com.wanted.backend.post.dto.request.PostUpdateRequest;
+import com.wanted.backend.post.entity.dto.reponse.PostPageResponse;
+import com.wanted.backend.post.entity.dto.reponse.PostResponse;
+import com.wanted.backend.post.entity.dto.request.PostCreateRequest;
+import com.wanted.backend.post.entity.dto.request.PostUpdateRequest;
 import com.wanted.backend.post.entity.Post;
-import com.wanted.backend.post.mapper.PostMapper;
+import com.wanted.backend.post.entity.mapper.PostMapper;
 import com.wanted.backend.post.repository.PostRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +58,7 @@ public class PostService implements EntityLoader<Post, Long>{
         return postMapper.toPageResponse(postByPagenation);
     }
 
+    @Transactional
     public void deletePost(final Long id, final MemberTokenInfo info) {
         checkJwtToken(id, info);
 
@@ -68,7 +70,7 @@ public class PostService implements EntityLoader<Post, Long>{
             .orElseThrow(MemberNotFoundException::new);
     }
 
-    private void checkJwtToken(Long postId, MemberTokenInfo memberTokenInfo) {
+    private void checkJwtToken(final Long postId, final MemberTokenInfo memberTokenInfo) {
         Post post = loadEntity(postId);
 
         if (!(post.getMember().getId()).equals(memberTokenInfo.getId())) {

@@ -3,6 +3,7 @@ package com.wanted.backend.post.entity;
 import com.wanted.backend.global.audit.AuditListener;
 import com.wanted.backend.global.audit.Auditable;
 import com.wanted.backend.global.audit.BaseTime;
+import com.wanted.backend.global.audit.SoftDelete;
 import com.wanted.backend.member.entity.Member;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
+@SoftDelete
 @Where(clause = "deleted_at is null")
 @EntityListeners(AuditListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,7 +40,7 @@ public class Post implements Auditable {
     @Column(nullable = false)
     private String title;
 
-    @JoinColumn
+    @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 

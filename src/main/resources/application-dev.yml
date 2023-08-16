@@ -20,7 +20,6 @@ spring:
     username: root
     password: 1234
 
-# 따로 분리를 해야하지만 예외적으로 남겨둠
 app:
   auth:
     token:
