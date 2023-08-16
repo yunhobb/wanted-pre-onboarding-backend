@@ -41,10 +41,7 @@ public class JwtTokenProvider {
             Long id = Long.parseLong(body.get("id", String.class));
             String email = body.get("email", String.class);
 
-            return MemberTokenInfo.builder()
-                .id(id)
-                .email(email)
-                .build();
+            return new MemberTokenInfo(id, email);
         } catch (RuntimeException e) {
             throw new CustomJwtTokenException();
         }
