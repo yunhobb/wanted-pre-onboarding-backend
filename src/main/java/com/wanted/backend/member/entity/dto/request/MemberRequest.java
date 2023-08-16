@@ -1,4 +1,4 @@
-package com.wanted.backend.member.dto.request;
+package com.wanted.backend.member.entity.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;

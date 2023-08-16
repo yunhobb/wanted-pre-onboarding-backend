@@ -1,7 +1,7 @@
-package com.wanted.backend.member.mapper;
+package com.wanted.backend.member.entity.mapper;
 
-import com.wanted.backend.member.dto.request.MemberRequest;
-import com.wanted.backend.member.dto.response.MemberResponse;
+import com.wanted.backend.member.entity.dto.request.MemberRequest;
+import com.wanted.backend.member.entity.dto.response.MemberResponse;
 import com.wanted.backend.member.entity.Member;
 import org.springframework.stereotype.Component;
 

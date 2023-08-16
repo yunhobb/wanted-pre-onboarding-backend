@@ -1,4 +1,4 @@
-package com.wanted.backend.post.dto.reponse;
+package com.wanted.backend.post.entity.dto.reponse;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

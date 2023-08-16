@@ -1,4 +1,4 @@
-package com.wanted.backend.member.dto.response;
+package com.wanted.backend.member.entity.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,9 +1,9 @@
-package com.wanted.backend.post.mapper;
+package com.wanted.backend.post.entity.mapper;
 
 import com.wanted.backend.member.entity.Member;
-import com.wanted.backend.post.dto.reponse.PostPageResponse;
-import com.wanted.backend.post.dto.reponse.PostResponse;
-import com.wanted.backend.post.dto.request.PostCreateRequest;
+import com.wanted.backend.post.entity.dto.reponse.PostPageResponse;
+import com.wanted.backend.post.entity.dto.reponse.PostResponse;
+import com.wanted.backend.post.entity.dto.request.PostCreateRequest;
 import com.wanted.backend.post.entity.Post;
 import java.util.List;
 import java.util.stream.Collectors;
