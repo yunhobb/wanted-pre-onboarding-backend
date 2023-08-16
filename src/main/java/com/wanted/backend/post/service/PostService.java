@@ -32,19 +32,22 @@ public class PostService implements EntityLoader<Post, Long>{
     PostMapper postMapper;
     MemberRepository memberRepository;
 
+    @Transactional
     public IdResponse<Long> create(final PostCreateRequest request) {
         Member member = existMember(request.getMemberId());
         Post post =  postRepository.save(postMapper.toEntity(request, member));
         return new IdResponse<>(post.getId());
     }
 
+    @Transactional
     public IdResponse<Long> update(final PostUpdateRequest request, final  MemberTokenInfo info) {
         checkJwtToken(request.getPostId(),info);
 
         Post foundPost = loadEntity(request.getPostId());
 
         foundPost.updatePost(request.getContent(), request.getTitle());
-        return new IdResponse<>(postRepository.save(foundPost).getId());
+        postRepository.save(foundPost);
+        return new IdResponse<>(foundPost.getId());
     }
 
     public PostResponse getOnePost(final Long id) {
@@ -70,10 +73,10 @@ public class PostService implements EntityLoader<Post, Long>{
             .orElseThrow(MemberNotFoundException::new);
     }
 
-    private void checkJwtToken(final Long postId, final MemberTokenInfo memberTokenInfo) {
-        Post post = loadEntity(postId);
+    private void checkJwtToken(final Long id, final MemberTokenInfo memberTokenInfo) {
+        Post post = loadEntity(id);
 
-        if (!(post.getMember().getId()).equals(memberTokenInfo.getId())) {
+        if (!((post.getMember().getId()).equals(memberTokenInfo.getId()))) {
             throw new CustomJwtTokenException();
         }
     }
