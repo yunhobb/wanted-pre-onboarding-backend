@@ -16,7 +16,7 @@ MySQL 8.0
 ```text
 https://github.com/yunhobb/wanted-pre-onboarding-backend.git
 ```
-2. docker compoise up으로 MySQL과 backend 컨테이너 실행
+2. docker compose up 으로 MySQL, backend 컨테이너 실행
 ```text
 docker compose up --build 
 ```
@@ -47,14 +47,20 @@ docker compose up --build
 
 * 과제 5. 특정 게시글을 조회하는 엔드포인트
   * postId로 특정 게시물 데이터 접근
+  
 * 과제 6. 특정 게시글을 수정하는 엔드포인트
   * postId로 특정 게시물 수정
+  * header 받은 token을 유효한지 검사
+
 * 과제 7. 특정 게시글을 삭제하는 엔드포인트
   * deleted_at 컬럼을 DB에 추가해 NULL이 아닐시 soft delete 되도록 구현 
+  * header 받은 token을 유효한지 검사
+
+
 * 추가사항
   * Service Layer 테스트 코드 작성완료 
   * docker compose와 JIB를 사용해 어플리케이션 환경을 구성
-  * 재사용성이 높은 공용 IdResponse를 DTO를 사용 
+  * 재사용성이 높은 공용 IdResponse를 DTO로 사용 
   * 전역 에러처리를 위해 GlobalErroorAdvice를 추가
   
 
