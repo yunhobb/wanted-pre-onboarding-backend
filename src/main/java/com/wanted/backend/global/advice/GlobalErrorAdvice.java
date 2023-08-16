@@ -47,4 +47,9 @@ public class GlobalErrorAdvice {
     public ResponseEntity<ErrorResponse> nullPointerException(NullPointerException e) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse(e.getMessage()));
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> IllegalStateException(NullPointerException e) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ErrorResponse(e.getMessage()));
+    }
 }
