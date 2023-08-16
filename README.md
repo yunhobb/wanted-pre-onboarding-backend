@@ -43,7 +43,7 @@ docker compose up --build
   * 게시글을 생성하기 위해 제목과 내용을 받음
   
 * 과제 4. 게시글 목록을 조회하는 엔드포인트
-  * offset 방식으로 페이지네이션을 구현
+  * offset 방식으로 페이지네이션을 구현 (default: offset = 0, size = 10)
 
 * 과제 5. 특정 게시글을 조회하는 엔드포인트
   * postId로 특정 게시물 데이터 접근
